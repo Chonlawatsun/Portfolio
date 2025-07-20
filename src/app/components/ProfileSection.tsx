@@ -167,8 +167,8 @@ const ProfileSection: React.FC = () => {
             <Image
               src="/User.png"
               alt="Profile Picture"
-              width={250}
-              height={250}
+              width={260}
+              height={260}
               className="rounded-full object-cover border-4 border-gray-700 shadow-2xl shadow-cyan-500/50 group-hover:shadow-cyan-500/70 transition-all duration-300 group-hover:scale-105"
               style={{ aspectRatio: '1 / 1' }}
               priority
