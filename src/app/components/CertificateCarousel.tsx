@@ -136,7 +136,7 @@ const CertificateCarousel: React.FC = () => {
   // REMOVED: isMobile state and useEffect for resize handling are no longer needed.
 
   return (
-    <section className="py-20 bg-gray-900 relative overflow-hidden">
+    <section id="certificates" className="py-20 bg-gray-900 relative overflow-hidden">
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400 mb-4">

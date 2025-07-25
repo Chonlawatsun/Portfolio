@@ -11,7 +11,8 @@ const Navbar = () => {
   // Logic สำหรับตรวจจับว่ากำลังดู section ไหนอยู่
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['profile', 'experience', 'certificates', 'portfolio'];
+      // ✅ แก้ไขอาร์เรย์นี้ให้ตรงกับ navLinks
+      const sections = ['profile', 'about', 'portfolio', 'certificates'];
       const scrollPosition = window.scrollY + 150; // เพิ่ม offset ให้แม่นยำขึ้น
 
       for (const id of sections) {
@@ -58,8 +59,8 @@ const Navbar = () => {
                 key={link.href}
                 href={link.href}
                 className={`relative px-6 py-2 rounded-lg font-medium transition-all duration-300 ${
-                  activeLink === link.href 
-                    ? 'text-blue-400 bg-blue-500/10 border border-blue-500/30' 
+                  activeLink === link.href
+                    ? 'text-blue-400 bg-blue-500/10 border border-blue-500/30'
                     : 'text-gray-300 hover:text-blue-400 hover:bg-blue-500/5'
                 }`}
               >
@@ -70,11 +71,11 @@ const Navbar = () => {
               </Link>
             ))}
           </div>
-          
+
           {/* Mobile Menu Button */}
           <div className="md:hidden">
-            <button 
-              onClick={() => setIsOpen(!isOpen)} 
+            <button
+              onClick={() => setIsOpen(!isOpen)}
               className="text-gray-300 hover:text-blue-400 focus:outline-none p-2 rounded-lg hover:bg-blue-500/5 transition-all duration-300"
             >
               {isOpen ? (
@@ -101,8 +102,8 @@ const Navbar = () => {
                     href={link.href}
                     onClick={() => setIsOpen(false)} // กดลิงก์แล้วให้เมนูปิด
                     className={`block p-3 rounded-lg font-medium transition-all duration-300 ${
-                      activeLink === link.href 
-                        ? 'text-blue-400 bg-blue-500/10 border border-blue-500/30' 
+                      activeLink === link.href
+                        ? 'text-blue-400 bg-blue-500/10 border border-blue-500/30'
                         : 'text-gray-300 hover:text-blue-400 hover:bg-blue-500/5'
                     }`}
                   >
@@ -114,7 +115,7 @@ const Navbar = () => {
           </div>
         )}
       </div>
-      
+
       {/* Subtle glow effect at bottom */}
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent"></div>
     </nav>
