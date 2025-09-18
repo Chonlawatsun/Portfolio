@@ -53,7 +53,7 @@ const projects: Project[] = [
     {
       id: 5,
       title: "Dev By Side",
-      description: "เว็บไซต์ส่วนตัวที่รวบรวมผลงานและบทความต่างๆ สร้างด้วย Next.js และ Tailwind CSS",
+      description: "เว็บไซต์ส่วนตัวที่รวบรวมผลงานและบทความต่างๆ พัฒนาด้วย Next.js และ Tailwind CSS",
       images: ["/devbyside.png"], // รูปภาพปกสำหรับแสดงบนการ์ด
       link: "https://www.devbyside.online/", // <-- ใส่ URL จริงของเว็บที่นี่
     },
@@ -63,6 +63,13 @@ const projects: Project[] = [
       description: "ใช้อัลกอริทึม Random Forest Regressor เพื่อเรียนรู้จากฟีดแบคของผู้ใช้ (เช่น mood, rating, feedback และคุณลักษณะของเพลง) ได้พัฒนาโปรเจคนี้ในส่วน UXUI ใช้ html + css ใช้การฝัง (embed) เพลงจาก Spotify โดยใช้ track_id",
       images: ["/Mood-based.png","/Mood-based1.png"], // รูปภาพปกสำหรับแสดงบนการ์ด
       link: "#", 
+    },
+    {
+      id: 7,
+      title: "Global Mining Trade",
+      description: "ผลงานเว็บไซต์เกี่ยวกับบริษัทการทำเหมืองแร่และซื้อขายแร่ทุกชนิดทั่วโลก พัฒนาด้วย Next.js และ Tailwind CSS มีการใช้ API ของ MetalAPI ในการดึงราคาแร่แต่ละชนิด และเก็บ Cache ไว้ใน Redis เพื่อให้อัพเดทราคาทุกวันโดยไม่เรียก APIซ้ำทุกการเข้าเว็บ เป็นเว็บ 3 ภาษา ไทย อังกฤษ จีน",
+      images: ["/globalminingtrade_fastwork.png"], // รูปภาพปกสำหรับแสดงบนการ์ด
+      link: "https://www.globalminingtrade.com/", 
     },
 ];
 
@@ -82,11 +89,11 @@ const PortfolioSection = () => {
 
   // --- ฟังก์ชันจัดการการคลิกการ์ด ---
   const handleCardClick = (project: Project) => {
-  // ✅ เฉพาะ id 5 เท่านั้นที่ให้เปิดเว็บไซต์
-  if (project.id === 5 && project.link) {
-    window.open(project.link, '_blank', 'noopener,noreferrer');
-    return; // หยุดไม่ให้เปิด modal
-  }
+// ✅ เฉพาะ id 5 และ 7 เท่านั้นที่ให้เปิดเว็บไซต์
+if ((project.id === 5 || project.id === 7) && project.link) {
+  window.open(project.link, '_blank', 'noopener,noreferrer');
+  return; // หยุดไม่ให้เปิด modal
+}
 
   // สำหรับโปรเจกต์อื่นให้เปิด modal ตามปกติ
   openModal(project);

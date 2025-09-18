@@ -11,7 +11,7 @@ const sarabun = Sarabun({
 });
 
 export const metadata: Metadata = {
-  title: "Your Name - Portfolio",
+  title: "Chonlawat Sun - Portfolio",
   description: "My professional portfolio.",
 };
 
