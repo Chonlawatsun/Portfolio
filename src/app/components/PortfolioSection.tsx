@@ -17,6 +17,7 @@ type Project = {
   description: string;
   images: string[];
   link?: string;
+  pdf?: string; 
 };
 
 // --- ข้อมูลโปรเจกต์ (เพิ่ม id: 5) ---
@@ -71,6 +72,22 @@ const projects: Project[] = [
       images: ["/globalminingtrade_fastwork.png"], // รูปภาพปกสำหรับแสดงบนการ์ด
       link: "https://www.globalminingtrade.com/", 
     },
+    {
+      id: 8,
+      title: "โครงการตรวจสอบการรักษาความปลอดภัยสำหรับระบบสารสนเทศ (จำลอง)  ",
+      description: "โครงการนี้เป็นส่วนหนี่งของวิชา Cybersecurity จัดทำขึ้นเพื่อศึกษาการจัดการความปลอดภัยในระบบสารสนเทศ รวมถึงการวิเคราะห์ปัญหาและพัฒนาระบบสารสนเทศภายในองค์กรให้มีประสิทธิภาพ โดยรายงานฉบับนี้มีเนื้อหาประกอบด้วย ข้อมูลการทดสอบเจาะระบบ การประเมินช่องโหว่ รายละเอียดแผนผังเครือข่าย และการออกแบบเครือข่ายเป็นต้น",
+      images: ["/Network diagram 2.2.png"], // รูปภาพปกสำหรับแสดงบนการ์ด
+      link: "#",
+      pdf: "/Project_CS448.pdf", 
+    },
+    {
+      id: 9,
+      title: "การทดสอบเจาะระบบเซิร์ฟเวอร์จำลอง (Lab จาก TryHackMe)",
+      description: "รายงานนี้เป็นการทดสอบเจาะระบบผ่านแพลตฟอร์ม TryHackMe รายงานฉบับนี้เป็นส่วนหนึ่งของวิชา Ethical Hacking and Penetration ภายใต้หลักสูตรของคณะเทคโนโลยีสารสนเทศและนวัตกรรม สาขาวิชาวิทยาการคอมพิวเตอร์ มุ่งเน้นวิชาการข้อมูลและความปลอดภัยไซเบอร์มหาวิทยาลัยกรุงเทพ",
+      images: ["/pentest report_1.png","/pentest report_2.png","/pentest report_3.png"], // รูปภาพปกสำหรับแสดงบนการ์ด
+      link: "#",
+      pdf: "/Pentest Report.pdf", 
+    },
 ];
 
 const PortfolioSection = () => {
@@ -101,8 +118,8 @@ if ((project.id === 5 || project.id === 7) && project.link) {
 
 
   return (
-    <section id="portfolio" className="py-20 rounded-lg my-20 -mt-15">
-      <h2 className="text-3xl font-bold text-center md:text-4xl bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400 mb-4">Past Projects</h2>
+    <section id="portfolio" className="py-20 rounded-lg my-20 -mt-15 scroll-m-10">
+      <h2 className="text-3xl font-bold text-center md:text-4xl bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400 mb-4">My Projects</h2>
       <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-cyan-500 mx-auto rounded-full"></div>
       
       {/* ใช้ mt-12 เพื่อเพิ่มระยะห่างจากเส้นขีด */}
@@ -188,15 +205,43 @@ if ((project.id === 5 || project.id === 7) && project.link) {
                     className="relative bg-gray-900 rounded-lg w-full max-w-4xl h-full max-h-[85vh] p-4"
                     onClick={(e) => e.stopPropagation()} // ป้องกันการปิด Modal เมื่อคลิกที่ตัว Swiper
                 >
-                    {/* Header Modal */}
-                    <div className="flex justify-between items-center mb-4 px-2">
+                   {/* Header Modal */}
+                    <div className="mb-4 px-2">
+                      <div className="flex justify-between items-center">
                         <h3 className="text-2xl font-bold text-white">{selectedProject.title}</h3>
                         <button
-                            onClick={closeModal}
-                            className="text-white text-3xl bg-gray-800 rounded-full w-10 h-10 flex items-center justify-center hover:bg-gray-700 transition-colors"
+                          onClick={closeModal}
+                          className="text-white text-3xl bg-gray-800 rounded-full w-10 h-10 flex items-center justify-center hover:bg-gray-700 transition-colors"
                         >
-                            &times;
+                          &times;
                         </button>
+                      </div>
+
+                      {/* ปุ่มดาวน์โหลด PDF อยู่ใต้ Title */}
+                      {selectedProject.pdf && (
+                        <a
+                          href={selectedProject.pdf}
+                          download
+                          className="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-md bg-cyan-600 hover:bg-cyan-500 
+                                    text-white text-sm font-medium transition-colors"
+                        >
+                          <svg
+                            className="w-5 h-5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V3"
+                            />
+                          </svg>
+                          ดาวน์โหลดเอกสาร (PDF)
+                        </a>
+                      )}
+
                     </div>
 
                     {/* Swiper ภายใน Modal */}

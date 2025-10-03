@@ -33,6 +33,7 @@ const Navbar = () => {
     { href: '#about', label: 'About me' },
     { href: '#portfolio', label: 'Work' },
     { href: '#certificates', label: 'Certificates' },
+    { href: '#contact', label: 'Contact' },
   ];
 
   return (

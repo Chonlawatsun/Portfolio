@@ -21,6 +21,16 @@ interface Education {
 
 // --- ✏️ แก้ไขข้อมูลประวัติการทำงานของคุณตรงนี้ ---
 const workExperience: WorkExperience[] = [
+   {
+    role: "Logistics",
+    company: "J.I.B. COMPUTER GROUP COMPANY LIMITED",
+    duration: "Feb 2025 - Sep 2025",
+    responsibilities: [
+      "ประสานงานกับรถส่งของ",
+      "ดูแลวางแผนการส่งของด่วน",
+      "ตรวจเช็คข้อมูลความถูกต้องในระบบ",
+    ]
+  },
   {
     role: "graphic design",
     company: "CHOOPRINT DESIGN CO., LTD.",
@@ -31,16 +41,7 @@ const workExperience: WorkExperience[] = [
       "ประสานงานคุยกับลูกค้า",
     ]
   },
-  {
-    role: "Logistics",
-    company: "J.I.B. COMPUTER GROUP COMPANY LIMITED",
-    duration: "Feb 2025 - Present",
-    responsibilities: [
-      "ประสานงานกับรถส่งของ",
-      "ดูแลวางแผนการส่งของด่วน",
-      "ตรวจเช็คข้อมูลความถูกต้องในระบบ",
-    ]
-  },
+ 
   // --- เพิ่มประวัติการทำงานอื่นๆ ที่นี่ ---
 ];
 
@@ -51,7 +52,7 @@ const educationHistory: Education[] = [
         school: "มหาวิทยาลัยกรุงเทพ",
         degree: "กำลังศึกษาปริญญาตรี",
         major: "สาขาวิชาวิทยาการคอมพิวเตอร์ (มุ่งเน้นวิทยาการข้อมูลและความมั่นคงปลอดภัยไซเบอร์)",
-        grade : "GPA : 3.58",
+        grade : "GPA : 3.48",
     },
     {
         logoUrl: "/logo.chinorotpng.png",
@@ -163,7 +164,7 @@ const AboutMeSection: React.FC = () => {
   );
 
   return (
-    <section id="about" className="bg-gray-900 py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <section id="about" className="bg-gray-900 py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden scroll-m-10">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-0 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl animate-pulse"></div>

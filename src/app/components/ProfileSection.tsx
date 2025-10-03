@@ -102,7 +102,7 @@ const ProfileSection: React.FC = () => {
   };
 
   return (
-    <section id="profile" className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden pt-28 md:pt-4**">
+    <section id="profile" className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden pt-28 md:pt-4">
       {/* Full Screen Animated Background */}
       <div className="fixed inset-0 -z-10">
         {/* Gradient Orbs */}
@@ -188,7 +188,7 @@ const ProfileSection: React.FC = () => {
           </h1>
 
           <p className="text-xl md:text-2xl font-semibold text-cyan-400 mb-4">
-            <TypingText text="A student from Bangkok University" speed={100} />
+            <TypingText text="A student from Bangkok University" speed={160} />
           </p>
 
           <p className="max-w-xl text-gray-300 mb-6 leading-relaxed">
@@ -204,25 +204,28 @@ const ProfileSection: React.FC = () => {
 
           {/* Enhanced CTA buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 mb-6">
-            <button className="group relative bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold py-3 px-8 rounded-full overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/50 w-full sm:w-auto">
+            <a 
+              href="#contact"
+              className="group relative bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold py-3 px-8 rounded-full overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/50 w-full sm:w-auto"
+            >
               <span className="relative z-10 flex items-center justify-center gap-2">
                 Contact Me
                 <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
               </span>
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 to-blue-700 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-            </button>
-            
-            <a 
-              href="/path/to/your-cv.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative border-2 border-cyan-500 text-cyan-500 font-bold py-3 px-8 rounded-full hover:bg-cyan-500 hover:text-white transition-all duration-300 w-full sm:w-auto overflow-hidden"
+            </a>
+
+            {/* ✅ แก้ไขตรงนี้ - ลบ <a> ซ้อนกันออก */}
+            <a
+              href="/resume.pdf"
+              download="RESUME_Chonlawat Nguensub.pdf"
+              className="group relative border-2 border-cyan-500 text-cyan-500 font-bold py-3 px-8 rounded-full overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/50 w-full sm:w-auto"
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
                 <FaDownload className="group-hover:animate-bounce" />
-                Download CV (เร็วๆนี้)
+                Download Resume
               </span>
-              <div className="absolute inset-0 bg-cyan-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
             </a>
           </div>
 
