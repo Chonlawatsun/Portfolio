@@ -1,11 +1,43 @@
+// components/FooterSection.tsx
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { FaFacebook, FaLine, FaInstagram, FaGithub, FaLinkedin, FaShieldAlt, FaLock, FaBug, FaKey } from 'react-icons/fa';
+import React, { useRef, useState, useEffect } from 'react';
+import { FaGithub, FaLinkedin, FaFacebook, FaEnvelope, FaPaperPlane, FaLine } from 'react-icons/fa';
+import emailjs from '@emailjs/browser';
 
 const FooterSection: React.FC = () => {
+  // --- Logic 1: EmailJS Form (เหมือนเดิม) ---
+  const form = useRef<HTMLFormElement>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<null | 'success' | 'error'>(null);
+  const currentYear = new Date().getFullYear();
+
+  const sendEmail = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    if (form.current) {
+      emailjs.sendForm(
+        'service_k0pg1tt',       // Service ID
+        'template_60msfpj',      // Template ID
+        form.current,
+        'Qd1sDa7NjtCXig-O2'      // Public Key
+      )
+      .then((result) => {
+          console.log(result.text);
+          setStatus('success');
+          setIsSubmitting(false);
+          form.current?.reset();
+      }, (error) => {
+          console.log(error.text);
+          setStatus('error');
+          setIsSubmitting(false);
+      });
+    }
+  };
+
+  // --- Logic 2: Mouse Tracking สำหรับพื้นหลัง (เพิ่มเข้ามา) ---
   const [mousePosition, setMousePosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
-  const [currentYear] = useState<number>(new Date().getFullYear());
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -14,272 +46,209 @@ const FooterSection: React.FC = () => {
         y: (e.clientY / window.innerHeight) * 100
       });
     };
-
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   const socialLinks = [
     {
+      id: 'github',
+      icon: <FaGithub size={20} />,
+      link: 'https://github.com/Chonlawatsun',
+      label: 'Github',
+      hoverColor: 'hover:text-white'
+    },
+    {
+      id: 'linkedin',
+      icon: <FaLinkedin size={20} />,
+      link: 'https://www.linkedin.com/in/...', 
+      label: 'LinkedIn',
+      hoverColor: 'hover:text-blue-400'
+    },
+    {
       id: 'facebook',
-      icon: <FaFacebook size={24} />,
+      icon: <FaFacebook size={20} />,
       link: 'https://www.facebook.com/ChonlawatSun/',
-      color: 'hover:text-blue-400',
-      gradient: 'from-blue-600 to-blue-400'
+      label: 'Facebook',
+      hoverColor: 'hover:text-blue-500'
     },
     {
       id: 'line',
-      icon: <FaLine size={24} />,
-      link: 'https://line.me/ti/p/kU9caOa0Sx',
-      color: 'hover:text-green-400',
-      gradient: 'from-green-600 to-green-400'
+      icon: <FaLine size={20} />,
+      link: 'https://line.me/ti/p/kU9caOa0Sx', 
+      label: 'Line',
+      hoverColor: 'hover:text-green-400'
     },
     {
-      id: 'instagram',
-      icon: <FaInstagram size={24} />,
-      link: 'https://www.instagram.com/sun_day.clw/',
-      color: 'hover:text-pink-400',
-      gradient: 'from-purple-600 via-pink-500 to-orange-400'
-    },
-    {
-      id: 'github',
-      icon: <FaGithub size={24} />,
-      link: 'https://github.com/Chonlawatsun',
-      color: 'hover:text-cyan-400',
-      gradient: 'from-cyan-600 to-blue-400'
+      id: 'email',
+      icon: <FaEnvelope size={20} />,
+      link: 'mailto:chonlawat.ngue@gmail.com',
+      label: 'Email',
+      hoverColor: 'hover:text-cyan-400'
     }
   ];
 
-  const quickLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Contact', href: '#contact' }
-  ];
-
-  const securitySkills = [
-    { icon: <FaShieldAlt />, text: 'Cybersecurity' },
-    { icon: <FaLock />, text: 'Network Security' },
-    { icon: <FaBug />, text: 'Vulnerability Assessment' },
-    { icon: <FaKey />, text: 'Penetration Testing' }
-  ];
-
   return (
-    <footer className="relative bg-gradient-to-b from-black via-gray-900 to-gray-950 overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 -z-10">
+    // 1. เปลี่ยน Class Container หลักให้เป็น Gradient แบบ ContactSection
+    <footer id="contact" className="relative overflow-hidden bg-gradient-to-b from-gray-900 via-gray-900 to-black pt-16 pb-8 border-t border-gray-800/50">
+      
+      {/* 2. ใส่ Background Animation Set ใหม่ (Orbs + Grid) */}
+      <div className="absolute inset-0 -z-10 pointer-events-none">
+        {/* Orb 1: Cyan/Blue */}
         <div 
-          className="absolute w-[600px] h-[600px] bg-gradient-to-r from-red-500/10 to-orange-600/10 rounded-full blur-3xl animate-pulse"
+          className="absolute w-[800px] h-[800px] bg-gradient-to-r from-cyan-500/10 to-blue-600/10 rounded-full blur-3xl animate-pulse"
           style={{
-            transform: `translate(${mousePosition.x * 0.05}px, ${mousePosition.y * 0.05}px)`,
+            transform: `translate(${mousePosition.x * 0.08}px, ${mousePosition.y * 0.08}px)`,
             transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
-            left: '-10%',
-            top: '20%'
+            left: '-15%', top: '5%'
           }}
         />
+        {/* Orb 2: Purple/Pink */}
         <div 
-          className="absolute w-[500px] h-[500px] bg-gradient-to-r from-cyan-500/10 to-blue-600/10 rounded-full blur-3xl animate-pulse"
+          className="absolute w-[700px] h-[700px] bg-gradient-to-r from-purple-500/10 to-pink-600/10 rounded-full blur-3xl animate-pulse"
           style={{
-            transform: `translate(${mousePosition.x * -0.03}px, ${mousePosition.y * -0.03}px)`,
+            transform: `translate(${mousePosition.x * -0.05}px, ${mousePosition.y * -0.05}px)`,
             transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
-            right: '-10%',
-            bottom: '30%',
+            right: '-15%', bottom: '15%',
             animationDelay: '1s'
           }}
         />
+        {/* Orb 3: Indigo */}
+        <div 
+          className="absolute w-[600px] h-[600px] bg-gradient-to-r from-indigo-500/10 to-purple-600/10 rounded-full blur-3xl animate-pulse"
+          style={{
+            transform: `translate(${mousePosition.x * 0.03}px, ${mousePosition.y * 0.03}px)`,
+            transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
+            left: '40%', top: '50%',
+            animationDelay: '2s'
+          }}
+        />
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]"></div>
       </div>
-
-      {/* Grid Pattern Overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,black,transparent)]"></div>
-
-      {/* Decorative Top Border */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-red-500 to-transparent"></div>
-
-      <div className="container mx-auto px-4 py-16 relative z-10">
-        {/* Main Footer Content */}
-        <div className="grid md:grid-cols-3 gap-12 mb-12">
-          {/* Brand Section */}
-          <div className="space-y-6">
-            <div className="inline-block">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="p-3 bg-gradient-to-br from-red-500/20 to-orange-500/20 rounded-lg border border-red-500/30">
-                  <FaShieldAlt className="text-red-400 text-2xl" />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-black bg-gradient-to-r from-red-400 via-orange-500 to-cyan-400 text-transparent bg-clip-text animate-gradient">
-                    Chonlawat Nguenyuang
-                  </h3>
-                  <p className="text-sm text-gray-400 font-semibold">Security Engineer Intern</p>
-                </div>
-              </div>
-              <div className="h-1 w-full bg-gradient-to-r from-red-500 via-orange-500 to-cyan-500 rounded-full"></div>
+      
+      {/* 3. เนื้อหาเดิมทั้งหมด (Content) */}
+      <div className="max-w-6xl mx-auto px-6 py-16 relative z-10">
+        <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-start">
+          
+          {/* --- Left Column --- */}
+          <div className="space-y-8">
+            <div className="space-y-4">
+              <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
+                Let&apos;s <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">Connect.</span>
+              </h2>
+              <p className="text-gray-400 leading-relaxed max-w-md">
+                กำลังมองหาโอกาสในการฝึกงานหรือร่วมงานด้าน <span className="text-cyan-400">Cybersecurity</span> และ <span className="text-blue-400">Web Development</span>? <br/>
+                ทักทายเข้ามาคุยกันได้เลยครับ ผมพร้อมเรียนรู้และสร้างสรรค์ผลงานเสมอ
+              </p>
             </div>
-            <p className="text-gray-400 leading-relaxed">
-              ผู้สนใจด้านความปลอดภัยทางไซเบอร์ พร้อมเรียนรู้และพัฒนาทักษะด้าน Security Engineering เพื่อปกป้องระบบและข้อมูลสำคัญ
-            </p>
-            
-            {/* Security Skills Tags */}
-            <div className="flex flex-wrap gap-2">
-              {securitySkills.map((skill, index) => (
-                <div 
-                  key={index}
-                  className="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-red-500/10 to-orange-500/10 border border-red-500/20 rounded-full text-xs text-gray-300 hover:border-red-400/50 transition-all duration-300"
-                >
-                  <span className="text-red-400">{skill.icon}</span>
-                  {skill.text}
-                </div>
-              ))}
-            </div>
-          </div>
 
-          {/* Quick Links */}
-          <div className="space-y-6">
-            <h4 className="text-xl font-bold text-white flex items-center gap-2">
-              <div className="p-2 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-lg">
-                <FaLock className="text-cyan-400" />
+            <div className="space-y-4 pt-2">
+              <div className="flex items-center gap-3 text-sm font-mono">
+                <span className="w-8 h-8 rounded-full bg-[#1E293B] flex items-center justify-center text-cyan-400">
+                  <FaEnvelope />
+                </span>
+                <a href="mailto:chonlawat.ngue@gmail.com" className="hover:text-white transition-colors">
+                  chonlawat.ngue@gmail.com
+                </a>
               </div>
-              Quick Navigation
-            </h4>
-            <ul className="space-y-3">
-              {quickLinks.map((link) => (
-                <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="text-gray-400 hover:text-cyan-400 transition-colors duration-300 inline-flex items-center gap-2 group"
-                  >
-                    <span className="w-0 group-hover:w-2 h-px bg-gradient-to-r from-red-400 to-cyan-400 transition-all duration-300"></span>
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-
-            {/* Professional Info */}
-            <div className="mt-6 p-4 bg-gradient-to-br from-gray-800/40 to-gray-900/40 backdrop-blur-xl rounded-xl border border-gray-700/30">
-              <p className="text-xs text-gray-500 mb-2">🎓 Education</p>
-              <p className="text-sm text-gray-300 font-semibold">Computer Science Student</p>
-              <p className="text-xs text-gray-400 mt-1">Focused on Cybersecurity</p>
-            </div>
-          </div>
-
-          {/* Contact & Social */}
-          <div className="space-y-6">
-            <h4 className="text-xl font-bold text-white flex items-center gap-2">
-              <div className="p-2 bg-gradient-to-br from-pink-500/20 to-orange-500/20 rounded-lg">
-                <FaKey className="text-pink-400" />
+              <div className="flex items-center gap-3 text-sm font-mono">
+                <span className="w-8 h-8 rounded-full bg-[#1E293B] flex items-center justify-center text-cyan-400">
+                  <span className="text-lg">📱</span>
+                </span>
+                <a href="tel:+66936150842" className="hover:text-white transition-colors">
+                  (+66) 93-615-0842
+                </a>
               </div>
-              Get In Touch
-            </h4>
-            
-            {/* Social Media */}
-            <div className="space-y-3">
-              <p className="text-sm text-gray-400">Connect with me:</p>
-              <div className="flex gap-3 flex-wrap">
+            </div>
+
+            <div className="pt-6">
+              <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Follow Me</p>
+              <div className="flex gap-4 flex-wrap">
                 {socialLinks.map((social) => (
                   <a
                     key={social.id}
                     href={social.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group relative"
+                    className={`w-10 h-10 flex items-center justify-center rounded-lg bg-[#1E293B] border border-gray-800 text-gray-400 transition-all duration-300 hover:scale-110 hover:border-gray-600 ${social.hoverColor}`}
                   >
-                    <div className={`absolute inset-0 bg-gradient-to-r ${social.gradient} opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500 rounded-full`}></div>
-                    <div className={`relative p-3 bg-gray-800/40 backdrop-blur-xl rounded-full border border-gray-700/30 text-gray-400 ${social.color} transition-all duration-500 transform group-hover:scale-110 group-hover:border-transparent`}>
-                      {social.icon}
-                    </div>
+                    {social.icon}
                   </a>
                 ))}
               </div>
             </div>
-
-            {/* Email Contact */}
-            <div className="bg-gradient-to-br from-gray-800/40 to-gray-900/40 backdrop-blur-xl rounded-xl p-4 border border-gray-700/30">
-              <p className="text-gray-400 text-xs mb-2 flex items-center gap-2">
-                <span>📧</span> Email
-              </p>
-              <a href="mailto:chonlawat.ngue@gmail.com" className="text-cyan-400 hover:text-cyan-300 transition-colors text-sm break-all">
-                chonlawat.ngue@gmail.com
-              </a>
-            </div>
-
-            {/* Phone Contact */}
-            <div className="bg-gradient-to-br from-gray-800/40 to-gray-900/40 backdrop-blur-xl rounded-xl p-4 border border-gray-700/30">
-              <p className="text-gray-400 text-xs mb-2 flex items-center gap-2">
-                <span>📱</span> Phone
-              </p>
-              <a href="tel:+66936150842" className="text-cyan-400 hover:text-cyan-300 transition-colors text-sm">
-                +66 93-615-0842
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Divider */}
-        <div className="relative mb-8">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent"></div>
-          </div>
-          <div className="relative flex justify-center">
-            <div className="w-2 h-2 rounded-full bg-red-400 animate-pulse"></div>
-          </div>
-        </div>
-
-        {/* Bottom Section */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="text-gray-400 text-sm text-center md:text-left">
-            <p className="flex items-center gap-2 justify-center md:justify-start flex-wrap mb-1">
-              © {currentYear} Chonlawat Nguenyuang. All Rights Reserved.
-            </p>
-            <p className="text-xs text-gray-500 flex items-center gap-2 justify-center md:justify-start">
-              Website designed and developed by Chonlawat Nguenyuang
-              <span className="flex items-center gap-1">
-                <FaShieldAlt className="text-red-400 inline" size={10} /> 
-                Aspiring Security Engineer
-              </span>
-            </p>
           </div>
 
-          {/* Status Badge & Scroll to Top Button */}
-          <div className="flex items-center gap-4">
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-red-500/10 to-orange-500/10 backdrop-blur-xl rounded-full px-6 py-3 border border-red-500/20">
-              <div className="relative">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                <div className="absolute inset-0 w-2 h-2 bg-green-400 rounded-full animate-ping"></div>
+          {/* --- Right Column: Contact Form --- */}
+          <div className="bg-[#111625] p-6 md:p-8 rounded-2xl border border-gray-800 shadow-xl shadow-black/50">
+            <form ref={form} onSubmit={sendEmail} className="space-y-5">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label htmlFor="name" className="text-xs font-bold text-gray-500 uppercase">Name</label>
+                  <input
+                    type="text"
+                    name="name" 
+                    required
+                    className="w-full px-4 py-3 bg-[#0B0F19] border border-gray-800 rounded-lg text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder-gray-600"
+                    placeholder="John Doe"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="email" className="text-xs font-bold text-gray-500 uppercase">Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    className="w-full px-4 py-3 bg-[#0B0F19] border border-gray-800 rounded-lg text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder-gray-600"
+                    placeholder="john@example.com"
+                  />
+                </div>
               </div>
-              <span className="text-white font-medium text-xs">Seeking Internship Opportunities</span>
-            </div>
 
-            {/* Scroll to Top Button */}
-            <button
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="group relative p-3 bg-gradient-to-r from-red-500/10 to-orange-500/10 backdrop-blur-xl rounded-full border border-red-500/20 hover:border-red-400 transition-all duration-500 hover:scale-110"
-            >
-              <svg className="w-5 h-5 text-red-400 transform group-hover:-translate-y-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
-              </svg>
-              <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-orange-600 opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500 rounded-full"></div>
-            </button>
+              <div className="space-y-2">
+                <label htmlFor="message" className="text-xs font-bold text-gray-500 uppercase">Message</label>
+                <textarea
+                  name="message"
+                  required
+                  rows={4}
+                  className="w-full px-4 py-3 bg-[#0B0F19] border border-gray-800 rounded-lg text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all resize-none placeholder-gray-600"
+                  placeholder="Hello, I'd like to talk about..."
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full py-3.5 px-6 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold rounded-lg hover:from-blue-500 hover:to-cyan-500 transition-all duration-300 shadow-lg shadow-blue-900/20 flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? 'Sending...' : 'Send Message'}
+                {!isSubmitting && <FaPaperPlane className="text-sm group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}
+              </button>
+
+              {status === 'success' && (
+                <p className="text-green-400 text-sm text-center animate-pulse">ส่งข้อความเรียบร้อยแล้วครับ!</p>
+              )}
+              {status === 'error' && (
+                <p className="text-red-400 text-sm text-center">เกิดข้อผิดพลาด ลองใหม่อีกครั้งนะครับ</p>
+              )}
+            </form>
+          </div>
+
+        </div>
+
+        {/* --- Bottom Footer --- */}
+        <div className="mt-20 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500 font-mono">
+          <p>© {currentYear} Chonlawat Nguenyuang.</p>
+          <div className="flex items-center gap-6">
+             <span className="flex items-center gap-2">
+               <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+               Open to Work
+             </span>
+             <p>Built with Next.js & Tailwind</p>
           </div>
         </div>
       </div>
-
-      {/* Custom Animations */}
-      <style jsx>{`
-        @keyframes gradient {
-          0%, 100% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-        }
-        
-        .animate-gradient {
-          background-size: 200% 200%;
-          animation: gradient 8s ease infinite;
-        }
-      `}</style>
     </footer>
   );
 };

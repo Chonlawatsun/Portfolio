@@ -4,7 +4,7 @@ import ProfileSection from "./components/ProfileSection";
 import CertificateCarousel from "./components/CertificateCarousel";
 import PortfolioSection from "./components/PortfolioSection";
 import Aboutme from "./components/Aboutme";
-import ContactSection from "./components/ContactSection";
+
 import FooterSection from "./components/FooterSection";
 
 
@@ -15,7 +15,7 @@ export default function Home() {
       <Aboutme />
       <PortfolioSection />
       <CertificateCarousel />
-      <ContactSection />
+ 
       <FooterSection />
     </div>
   );
